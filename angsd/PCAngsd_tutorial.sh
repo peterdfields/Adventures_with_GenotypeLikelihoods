@@ -14,10 +14,18 @@ ls *.sorted.bam | parallel -j16 -k bash filter_bam.sh {}
 
 ls *.bam > bam.filelist
 
-angsd -GL 2 -out data -nThreads 15 -doGlf 2 -doMajorMinor 1 -doMaf 2 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 1 -trim 0 -C 50 -baq 1  -minMapQ 20 -minQ 20 -minInd 5 -SNP_pval 1e-6 -bam bam.filelist -ref ref.fasta
+angsd -GL 2 -out data -nThreads 15 -doGlf 2 -doMajorMinor 1 -doMaf 2 -uniqueOnly 1 -remove_bads 1 \
+	-only_proper_pairs 1 -trim 0 -C 50 -baq 1  -minMapQ 20 -minQ 20 -minInd 5 -SNP_pval 1e-6 -bam bam.filelist -ref ref.fasta
 
 # We have a couple new files now of the genotypes in beagle format, mainly data.beagle.gz and data.mafs.gz
+# let's get a PCA plus a neighbor joining tree. Note, add sample list to get proper names on each tip
+# It's basically the same as the bam.filelist, just use sed to get the .bam off the file
 
+sed 's/.bam//g' bam.filelist > sample.list
+python pcangsd.py -beagle data.beagle.gz -out output -threads 15 -tree -tree_samples sample.list
+
+# You can open the file output.tree in figtree or whatever tree visualization software you wish to use
+# Move to R script to generate PCA plot.
 
 
 
