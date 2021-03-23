@@ -16,5 +16,9 @@ ls *.bam > bam.filelist
 
 angsd -GL 2 -out data -nThreads 15 -doGlf 2 -doMajorMinor 1 -doMaf 2 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 1 -trim 0 -C 50 -baq 1  -minMapQ 20 -minQ 20 -minInd 5 -SNP_pval 1e-6 -bam bam.filelist -ref ref.fasta
 
+# We have a couple new files now of the genotypes in beagle format, mainly data.beagle.gz and data.mafs.gz
+
+
+
 
 
